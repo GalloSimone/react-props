@@ -1,22 +1,50 @@
 import image from "../assets/images.jpg";
-
+import posts from "../data/posts";
+import TagList from "./tagList";
+const tagList = [];
+posts.forEach((post) => {
+  post.tags.forEach((tag) => {
+    if (!tagList.includes(tag)) tagList.push(tag);
+  });
+});
 
 function PostCard() {
     return (
-
-        <div className="card " style={{ width: "30rem" }}>
-            <img src={image} alt="Placeholder" className="card-img-top img-fluid" />
-
-            <div>
-                <h3 className="card-title px-3">titolo del post</h3>
+        <main>
+              <TagList tags={tagList} />
+            <div className="container">
+                {posts
+                .filter((post)=>post.published)
+               .map((post) =>(
+                <div className="card" key={post.id}>
+                <div className="img">
+                  <img src={image} alt={post.title} />
+                </div>
+                <div className="description">
+                  <h3>{post.title}</h3>
+                  <div className="tags">
+                    {post.tags.map((tag) => (
+                      <span className={`tag-${tag}`} key={tag}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="content">
+                    <p>{post.content}</p>
+                  </div>
+                  <button id="button">
+                    <p>LEGGI DI PIÙ</p>
+                  </button>
+                </div>
+              </div>
+               )
+            )
+                }
             </div>
-            <div>
-                <p className="card-text px-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo maxime deleniti repellat error! Recusandae officia, deserunt earum soluta voluptatum sed rerum est totam sunt modi praesentium laboriosam illum unde cumque voluptas quos temporibus consequatur necessitatibus facere eos accusamus accusantium ex porro iste. Maxime nihil architecto, aliquam provident beatae maiores debitis.</p>
-            </div>
-            <div><button className="btn btn-danger my-3 mx-3">leggi di piu</button></div>
-        </div>
+        </main>
     )
+  
+
 
 }
-
 export default PostCard
